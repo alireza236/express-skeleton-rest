@@ -1,0 +1,23 @@
+{
+    "env": "development",
+    "bodyLimit": "100kb",
+    "corsHeaders": ["Link"],
+    "version": "2.0",
+    "path": "src",
+    "host": "http://0.0.0.0:8080",
+    "port": 8080,
+    "jwt-secret":"jwt_secret",
+    "db": {
+        "username": "root",
+        "password": "",
+        "database": "db_nodeskeleton",
+        "host": "127.0.0.1",
+        "port": 3306,
+        "dialect": "mysql",
+        "pool": {
+          "maxConnections": 20,
+          "maxIdleTime": 30000
+        }
+      }
+  }
+  

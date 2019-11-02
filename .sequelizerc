@@ -1,0 +1,9 @@
+var path = require('path');
+var config = require('config');
+
+var settings = {
+  'migrations-path': path.resolve(config.get('path'), 'db', 'migrations'),
+  'seeders-path': path.resolve(config.get('path'),'db','seeders'),
+  'models-path': path.resolve('src', 'models'),
+};
+module.exports = settings;

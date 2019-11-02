@@ -1,0 +1,10 @@
+{
+  "env": "production",
+  "bodyLimit": "100kb",
+  "corsHeaders": ["Link"],
+  "version": "2.0",
+  "path": "dist",
+  "host": "http://0.0.0.0:8686",
+  "port": 8787,
+  "jwt-secret":"jwt_secret"
+}
