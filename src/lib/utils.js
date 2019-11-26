@@ -1,5 +1,5 @@
 
-import _ from 'lodash';
+import _,{ isUndefined } from 'lodash';
 /**	Creates a callback that proxies node callback style arguments to an Express Response object.
  *	@param {express.Response} res	Express HTTP Response
  *	@param {number} [status=200]	Status code to send on success
@@ -50,7 +50,7 @@ import _ from 'lodash';
   }
   
   export function isset (object) {
-    return (!_.isUndefined(object)) ? true : false;
+    return (!isUndefined(object)) ? true : false;
   }
   
   export function isInt (value) {

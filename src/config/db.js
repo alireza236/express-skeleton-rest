@@ -13,11 +13,49 @@ module.exports = (config, callback) => {
   let basename = path.basename(module.filename);
   let db = {};
   let pathModel = `${__dirname}/../models`;
+  const Op = Sequelize.Op;
+  const operatorsAliases = {
+    $eq: Op.eq,
+    $ne: Op.ne,
+    $gte: Op.gte,
+    $gt: Op.gt,
+    $lte: Op.lte,
+    $lt: Op.lt,
+    $not: Op.not,
+    $in: Op.in,
+    $notIn: Op.notIn,
+    $is: Op.is,
+    $like: Op.like,
+    $notLike: Op.notLike,
+    $iLike: Op.iLike,
+    $notILike: Op.notILike,
+    $regexp: Op.regexp,
+    $notRegexp: Op.notRegexp,
+    $iRegexp: Op.iRegexp,
+    $notIRegexp: Op.notIRegexp,
+    $between: Op.between,
+    $notBetween: Op.notBetween,
+    $overlap: Op.overlap,
+    $contains: Op.contains,
+    $contained: Op.contained,
+    $adjacent: Op.adjacent,
+    $strictLeft: Op.strictLeft,
+    $strictRight: Op.strictRight,
+    $noExtendRight: Op.noExtendRight,
+    $noExtendLeft: Op.noExtendLeft,
+    $and: Op.and,
+    $or: Op.or,
+    $any: Op.any,
+    $all: Op.all,
+    $values: Op.values,
+    $col: Op.col
+  };
+  
   let setting = {
     host: config.get('db.host'),
     dialect: config.get('db.dialect'),
     port: config.get('db.port'),
-    logging: false,
+    logging: false
   };
 
   if (config.get('env') == 'development') {
@@ -30,7 +68,7 @@ module.exports = (config, callback) => {
     setting = omit(setting, ['host']);
   }
 
-  const sequelize = new Sequelize(config.get('db.database'), config.get('db.username'), config.get('db.password'), setting);
+  const sequelize = new Sequelize(config.get('db.database'), config.get('db.username'), config.get('db.password'), setting, operatorsAliases);
   // you can use the authenticate function like this to test the connection.
   sequelize
     .authenticate()

@@ -14,6 +14,7 @@ import parseError from "parse-error";
 import compression from "compression";
 import helmet from "helmet";
 import bodyParser from "body-parser"
+import HTTPError from "node-http-error";
 import winston from "lib/winston";
 import auth from "lib/auth";
 import middleware from "./middleware";
@@ -64,12 +65,12 @@ initializeDb(config, (err,db) => {
 	
 
 	app.use ('*', (req, res, next) => {
-		res.status(404).json({
+		 res.status(404).json({
 		  status: 404,
 		  message: 'Resource Not Found'
-		});
-		return next();
-	  });
+		}); 
+       return next();  
+	});
 	
 
 	  app.use((err, req, res, next) => {
@@ -82,7 +83,7 @@ initializeDb(config, (err,db) => {
 		res.status(500).json({status:500, message: 'internal error', type:'internal'});
 		// }
 		//do logging and user-friendly error message display
-		return next();
+		return next(new HTTPError(500));
 	  });
 	
 	  if (!module.parent) {

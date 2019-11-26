@@ -110,7 +110,7 @@ passport.use('jwt', new JWTstrategy(opts, (jwt_payload, done) => {
           winston.log('info',  'user found in db in passport');
           done(null, user);
         } else {
-          winston.log('info',  'user not found in db');
+          winston.log('error',  'user not found in db');
           done(null, false);
         }
       });
