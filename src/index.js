@@ -41,8 +41,8 @@ app.server = http.createServer(app);
   
   //passport initialize
   app.use(passport.initialize()); 
-  //app.use(helmet()); 
-  //app.use(compression()); 
+  app.use(helmet()); 
+  app.use(compression()); 
   
  
 // connect to db
@@ -62,20 +62,20 @@ initializeDb(config, (err,db) => {
 	app.use('/api',api({ config, db }));
 	
 	app.use('/api',authRoute({ config, db }));
-	
+
+    
 
 	app.use ('*', (req, res, next) => {
-		 res.status(404).json({
-		  status: 404,
-		  message: 'Resource Not Found'
+     res.status(404).json({
+       status: 404,
+         message: 'Resource Not Found'
 		}); 
        return next();  
 	});
 	
-
-	  app.use((err, req, res, next) => {
+  
+	app.use((err, req, res, next) => {
 		winston.log('error',  err.message);
-		 
 		// if (err instanceof IpDeniedError) {
 		//   res.status(401).json({ status: 401, message: 'Unauthorized'});
 		// }
@@ -84,12 +84,12 @@ initializeDb(config, (err,db) => {
 		// }
 		//do logging and user-friendly error message display
 		return next(new HTTPError(500));
-	  });
+     });
 	
-	  if (!module.parent) {
+	if (!module.parent) {
 		app.server.listen(process.env.PORT || config.get('port'));
 		winston.log('info',`Started ${config.get('env')} on port ${config.get('port')}`);
-	  }
+    }
  
 	});
 

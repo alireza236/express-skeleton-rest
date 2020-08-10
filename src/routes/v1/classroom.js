@@ -42,6 +42,7 @@ module.exports = (ClassRoom) => resource({
 
   /** GET /:id - Return a given entity */
   async read({ object }, res) {
+    // eslint-disable-next-line no-useless-catch
     try {
       let response = {
         data: object

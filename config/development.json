@@ -9,7 +9,7 @@
     "jwt-secret":"jwt_secret",
     "db": {
         "username": "root",
-        "password": "",
+        "password": "root",
         "database": "db_nodeskeleton",
         "host": "127.0.0.1",
         "port": 3306,
