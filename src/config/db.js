@@ -5,6 +5,7 @@ import Sequelize from 'sequelize';
 import winston from '../lib/winston';
 import _,{omit} from 'lodash';
 
+
 require('sequelize-hierarchy')(Sequelize);
  
 

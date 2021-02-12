@@ -194,13 +194,13 @@ class StudentServices {
     try {
       let Students  = await  this.db.Student.create(params,option) 
       /* console.log(params.hobby) */
-      _.forEach(params.hobby,async (Hobby)=>{
+      _.map(params.hobby,async (Hobby)=>{
         let hobbi = await this.db.Hobby.findByPk(Hobby.id);
         if(!hobbi){
           winston.log('error', ' List hobby not found');
         }
        
-        return  this.db.HobbyStudent.bulkCreate([
+        await  this.db.HobbyStudent.bulkCreate([
           {  
              studentId: Students.id, 
              hobbyId: Hobby.id
@@ -225,7 +225,7 @@ class StudentServices {
         });
       
 
-     let Result = _.forEach(params.hobby, async (Hobby)=>{
+     let result = _.map(params.hobby, async (Hobby)=>{
          let hobbi = await this.db.Hobby.findByPk(Hobby.id);
          if(!hobbi){
            winston.log('error', ' List hobby not found');
@@ -244,10 +244,10 @@ class StudentServices {
         ])
       })
 
-      return Promise.all([
+      await Promise.all([
           object.update(params),
           telepon.update(params.telephone),
-          Result
+          result
       ]);  
     } catch (err) {
       throw err;

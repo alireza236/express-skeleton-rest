@@ -31,10 +31,10 @@ app.server = http.createServer(app);
   app.use(cors({exposedHeaders: config.get('corsHeaders')}));
 
   // parse application/x-www-form-urlencoded
-  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(express.urlencoded({extended: true}));
   
   // parse application/json
-  app.use(bodyParser.json({
+  app.use(express.json({
 	type: 'application/json',
 	limit : config.get('bodyLimit')
   }));
@@ -48,7 +48,6 @@ app.server = http.createServer(app);
 // connect to db
 initializeDb(config, (err,db) => {
 	
-	console.log('Error:',err)
 	if (err) {
 		return winston.log('info', `Failed Connect to db ${err}`);
 	}
@@ -86,8 +85,8 @@ initializeDb(config, (err,db) => {
 		return next(new HTTPError(500));
      });
 	
-	if (!module.parent) {
-		app.server.listen(process.env.PORT || config.get('port'));
+	 app.server.listen(process.env.PORT || config.get('port'));
+	 if (!module.children) {
 		winston.log('info',`Started ${config.get('env')} on port ${config.get('port')}`);
     }
  
