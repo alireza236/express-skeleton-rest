@@ -30,11 +30,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+
   ClassRoom.associate = function(models) {
     ClassRoom.hasMany(models.Student,{
       foreignKey:'classId',
       as:'class'
     })
   };
+  
   return ClassRoom;
 };

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('HobbyStudents', {
+    return queryInterface.createTable('hobbystudents', {
       studentId: {
         type: Sequelize.UUID,
         defaultValue:Sequelize.UUIDV4,
@@ -25,6 +25,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('HobbyStudents');
+    return queryInterface.dropTable('hobbystudents');
   }
 };

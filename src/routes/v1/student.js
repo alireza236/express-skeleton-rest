@@ -25,10 +25,12 @@ module.exports = (StudentServices) => resource({
 
   /** GET / - List all entities */
   async index({ user, query, params, payloads }, res) {
+     
     try {
       //merge query & params
       let response = await StudentServices.findAll({
         user,
+        query,
         params: _.merge(query, params),
         payloads
       });
@@ -41,7 +43,7 @@ module.exports = (StudentServices) => resource({
   },
 
   /** GET /:id - Return a given entity */
-  async read({ object }, res) {
+  async read({ user, object }, res) {
     try {
       let response = {
         data: object
@@ -78,6 +80,7 @@ module.exports = (StudentServices) => resource({
   async update({ user, body, object, payloads }, res) {
     try {
       await StudentServices.update({
+        user,
         object,
         params: body,
         payloads

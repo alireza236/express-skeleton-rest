@@ -9,11 +9,11 @@ module.exports = (api, { db, config }) => {
          res.status(200).send({ message:"OK", status:200, version:"0.0.1" })     
     });
 
-    api.use('/v1/students', routes.student(new services.StudentServices({ config, db })));
+    api.use('/v1/students', isAuthenticated ,routes.student(new services.StudentServices({ config, db })));
     
-    api.use('/v1/classrooms', routes.classroom(new services.ClassService({ config, db })));
+    api.use('/v1/classrooms', isAuthenticated , routes.classroom(new services.ClassService({ config, db })));
     
-    api.use('/v1/hobbies', routes.hobby(new services.HobbyService({ config, db })));
+    api.use('/v1/hobbies', isAuthenticated,  routes.hobby(new services.HobbyService({ config, db })));
     
 };
 

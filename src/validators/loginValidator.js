@@ -2,9 +2,9 @@ import { body, matchedData, validationResult} from "express-validator";
 const loginValidationRules = () => {
   return [
    
-    body('username').not().isEmpty().withMessage("Required"),
+    body('email').not().isEmpty().withMessage(" Email Required"),
     // password must be at least 5 chars long
-    body('password').isLength({ min: 5 }).withMessage("password min 5 character"),
+    body('password').isLength({ min: 5 }).withMessage("Password min 5 character"),
   ]
 }
 

@@ -13,7 +13,6 @@ import passport from "passport";
 import parseError from "parse-error";
 import compression from "compression";
 import helmet from "helmet";
-import bodyParser from "body-parser"
 import HTTPError from "node-http-error";
 import winston from "lib/winston";
 import auth from "lib/auth";
@@ -41,8 +40,8 @@ app.server = http.createServer(app);
   
   //passport initialize
   app.use(passport.initialize()); 
-  app.use(helmet()); 
-  app.use(compression()); 
+  //app.use(helmet()); 
+  //app.use(compression()); 
   
  
 // connect to db
@@ -86,7 +85,7 @@ initializeDb(config, (err,db) => {
      });
 	
 	 app.server.listen(process.env.PORT || config.get('port'));
-	 if (!module.children) {
+	 if (module.children ) {
 		winston.log('info',`Started ${config.get('env')} on port ${config.get('port')}`);
     }
  

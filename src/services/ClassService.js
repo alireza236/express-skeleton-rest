@@ -128,8 +128,8 @@ class ClassService {
 
       //override limit && offset
       if (offset && limit) {
-        this.offset = parseInt(offset);
-        this.limit = parseInt(limit);
+        this.offset = Number(offset);
+        this.limit = Number(limit);
       }
 
       //sorting orderBy attributes ASC or DESC

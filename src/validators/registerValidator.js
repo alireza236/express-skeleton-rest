@@ -2,9 +2,9 @@ import { body, matchedData, validationResult} from "express-validator";
 const registerValidationRules = () => {
   return [
     // username must be an email
-    body('name').not().isEmpty().withMessage("Required"),
+    body('firstname').not().isEmpty().withMessage("Firstname Required"),
 
-    body('username').not().isEmpty().withMessage("Required"),
+    body('lastname').not().isEmpty().withMessage("Lastname Required"),
     
     body('email').isEmail().withMessage("email incorrect"),
     // password must be at least 5 chars long

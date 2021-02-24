@@ -78,10 +78,13 @@ class StudentServices {
   }
 
 
-  async findAll({ params }) {
+  async findAll({ params , user}) {
 
     //get all attributes on model.
     const rawAttrs = Object.keys(this.db.Student.rawAttributes) || [];
+
+    console.log('USER ACCESS IN SERVICE', JSON.stringify(user.id));
+    
 
     let {
       q,
@@ -200,7 +203,7 @@ class StudentServices {
           winston.log('error', ' List hobby not found');
         }
        
-        await  this.db.HobbyStudent.bulkCreate([
+        await this.db.HobbyStudent.bulkCreate([
           {  
              studentId: Students.id, 
              hobbyId: Hobby.id
@@ -213,7 +216,7 @@ class StudentServices {
     }
   }
 
-  async update({ object, params }) {
+  async update({ user, object, params }) {
     
     try {
 
@@ -255,7 +258,7 @@ class StudentServices {
   }
 
   //REOMVE
-  async remove({ object }) {
+  async remove({user, object }) {
      
     let option = {
       isActive: false,

@@ -16,41 +16,37 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 export default ({ config, db }) => {
   passport.use('register',new LocalStrategy(
     {
-      usernameField: 'username',
+      usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true,
       session: false,
     },
     async (req, username, password, done) => {
-      console.log(username);
-      winston.log('info',`Username: ${username}`);
-      winston.log('info',`Username: ${req.body.email}`);
+      //console.log('info',`Username: ${username}`);
+      //console.log('info',`Username: ${req.body.firstname}`);
+
+      const { firstname, lastname, email } = req.body;
 
       try {
          db.User.findOne({
-          where: {
-            [Op.or]: [
-              {
-                username,
-              },
-              { email: req.body.email },
-            ],
-          },
+          where:{
+             email: username
+          }
         }).then(user => {
-          if (user != null) {
-            winston.log('error',  'username or email already taken');
+          if (user) {
+            winston.log('error', 'email already taken');
             return done(null, false, {
-              message: 'username or email already taken',
+              message: 'email already taken',
             });
           }
           bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
             db.User.create({
-              username,
+              firstname,
+              lastname,
+              email,
               password: hashedPassword,
-              name: req.body.name,
-              email: req.body.email
             }).then(user => {
-              winston.log('info', `user created:',${user}`);
+              winston.log('info', 'user created:');
               return done(null, user);
             });
           });
@@ -64,7 +60,7 @@ export default ({ config, db }) => {
 
 passport.use('login', new LocalStrategy(
     {
-      usernameField: 'username',
+      usernameField: 'email',
       passwordField: 'password',
       session: false,
     },
@@ -72,19 +68,20 @@ passport.use('login', new LocalStrategy(
       try {
          db.User.findOne({
           where: {
-            username,
+            email: username,
           },
         }).then(user => {
           if (user === null) {
-            return done(null, false, { message: 'bad username' });
+            return done(null, false, { message: "error_login" });
           }
+
           bcrypt.compare(password, user.password).then(response => {
             if (response !== true) {
               winston.log('error',  'passwords do not match');
-              return done(null, false, { message: 'passwords do not match' });
+              return done(null, false, { message: "passwords_do_not_match" });
             }
-            winston.log('info', 'user found & authenticated');
-            return done(null, user);
+            return done(null, user, { message: "success_login"});
+            //console.log('USER ON LOGIN', JSON.stringify(user, null,2));
           });
         });
       } catch (err) {
@@ -95,7 +92,7 @@ passport.use('login', new LocalStrategy(
 );
 
 const opts = {
-  jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
+  jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('Bearer'),
   secretOrKey: jwtSecret.secret,
 };
 
@@ -108,6 +105,8 @@ passport.use('jwt', new JWTstrategy(opts, (jwt_payload, done) => {
       }).then(user => {
         if (user) {
           winston.log('info',  'user found in db in passport');
+          console.log('USER HAS LOGGEDIN', JSON.stringify(user, null,2));
+          
           done(null, user);
         } else {
           winston.log('error',  'user not found in db');

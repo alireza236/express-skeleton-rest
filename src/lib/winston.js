@@ -10,19 +10,19 @@ const logger = winston.createLogger({
         return dateformat(Date.now(), 'yyyy-mm-dd HH:MM:ss.l');
       },
       formatter: function (options) {
-        var message = '';
+        let message = '';
 
         if (options.message !== undefined) {
           message = options.message;
         }
 
-        var meta = '';
+        let meta = '';
 
         if (options.meta && Object.keys(options.meta).length) {
           meta = '\n\t' + JSON.stringify(options.meta, null, 4);
         }
 
-        var level = options.level.toUpperCase();
+        let level = options.level.toUpperCase();
 
         switch (level) {
           case 'INFO':
@@ -41,7 +41,7 @@ const logger = winston.createLogger({
             break;
         }
 
-        var output = [
+        let output = [
           '[' + options.timestamp() + '][' + level + ']',
           message,
           meta

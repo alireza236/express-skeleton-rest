@@ -60,7 +60,9 @@ module.exports = (config, callback) => {
   };
 
   if (config.get('env') == 'development') {
-    setting.logging = false;
+    setting.logging = (str) => {
+      winston.log('info', str);
+    };
   }
 
   if (config.get('env') == 'production') {
